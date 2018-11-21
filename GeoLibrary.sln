@@ -1,0 +1,39 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2048
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoLibrary", "GeoLibrary\GeoLibrary.csproj", "{573CB43D-82FF-4374-85CB-EE84B8A8DDF5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{BA551432-F1B5-43B2-98F7-5F8D0CB737A6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{24C0B1F8-A11D-4F93-B5CB-A466F23498CE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoLibrary.Unit", "GeoLibrary.Unit\GeoLibrary.Unit.csproj", "{B94905E7-A05B-429F-B576-0C6963538400}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{573CB43D-82FF-4374-85CB-EE84B8A8DDF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{573CB43D-82FF-4374-85CB-EE84B8A8DDF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{573CB43D-82FF-4374-85CB-EE84B8A8DDF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{573CB43D-82FF-4374-85CB-EE84B8A8DDF5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B94905E7-A05B-429F-B576-0C6963538400}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B94905E7-A05B-429F-B576-0C6963538400}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B94905E7-A05B-429F-B576-0C6963538400}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B94905E7-A05B-429F-B576-0C6963538400}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{573CB43D-82FF-4374-85CB-EE84B8A8DDF5} = {BA551432-F1B5-43B2-98F7-5F8D0CB737A6}
+		{B94905E7-A05B-429F-B576-0C6963538400} = {24C0B1F8-A11D-4F93-B5CB-A466F23498CE}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {206A4601-29C9-4508-93C7-AF0AB4CF0AB8}
+	EndGlobalSection
+EndGlobal
