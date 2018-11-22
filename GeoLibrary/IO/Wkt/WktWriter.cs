@@ -30,6 +30,11 @@ namespace GeoLibrary.IO.Wkt
                 case LineString lineString:
                     BuildLineString(builder, lineString);
                     return;
+                case Polygon polygon:
+                    BuildPolygon(builder, polygon);
+                    return;
+                default:
+                    throw new ArgumentException($"Not supported geometry type: {geometry.GetType()}");
             }
         }
 
@@ -48,15 +53,37 @@ namespace GeoLibrary.IO.Wkt
             builder.Append(point.Latitude.ToString(CultureInfo.InvariantCulture));
         }
 
-        private static void BuildLineString(StringBuilder builder, LineString lineString)
+        private static void BuildLineString(StringBuilder builder, LineString lineString, bool skipHeader = false)
         {
-            builder.Append(WktTypes.LineString);
-            builder.Append(" (");
+            if (skipHeader == false)
+            {
+                builder.Append(WktTypes.LineString).Append(" ");
+            }
+
+            builder.Append("(");
             for (var i = 0; i < lineString.Count; i++)
             {
                 if (i > 0) builder.Append(", ");
 
                 BuildPointInner(builder, lineString[i]);
+            }
+
+            builder.Append(")");
+        }
+
+        private static void BuildPolygon(StringBuilder builder, Polygon polygon, bool skipHeader = false)
+        {
+            if (skipHeader == false)
+            {
+                builder.Append(WktTypes.Polygon).Append(" ");
+            }
+
+            builder.Append("(");
+            for (var i = 0; i < polygon.Count; i++)
+            {
+                if (i > 0) builder.Append(", ");
+
+                BuildLineString(builder, polygon[i], true);
             }
 
             builder.Append(")");

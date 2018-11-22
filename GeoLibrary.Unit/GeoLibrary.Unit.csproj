@@ -17,8 +17,4 @@
     <ProjectReference Include="..\GeoLibrary\GeoLibrary.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="IO.Facts\Wkt.Facts\" />
-  </ItemGroup>
-
 </Project>

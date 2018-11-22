@@ -27,6 +27,28 @@ namespace GeoLibrary.Model
         {
         }
 
+        /// <summary>
+        /// Remove duplicate points unless the first and the last one
+        /// </summary>
+        public void Simplify()
+        {
+            if (Count < 2)
+                return;
+
+            var lastPoint = Coordinates[Count - 1];
+            for (var index = Count - 2; index > 0; index--)
+            {
+                if (Coordinates[index] == lastPoint)
+                {
+                    Coordinates.RemoveAt(index);
+                }
+                else
+                {
+                    lastPoint = Coordinates[index];
+                }
+            }
+        }
+
         public override bool Equals(object obj)
         {
             if (!(obj is LineString other)) return false;
