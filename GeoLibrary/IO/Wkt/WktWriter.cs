@@ -27,6 +27,9 @@ namespace GeoLibrary.IO.Wkt
                 case Point point:
                     BuildPoint(builder, point);
                     return;
+                case MultiPoint multiPoint:
+                    BuildMultiPoint(builder, multiPoint);
+                    return;
                 case LineString lineString:
                     BuildLineString(builder, lineString);
                     return;
@@ -51,6 +54,19 @@ namespace GeoLibrary.IO.Wkt
             builder.Append(point.Longitude.ToString(CultureInfo.InvariantCulture));
             builder.Append(" ");
             builder.Append(point.Latitude.ToString(CultureInfo.InvariantCulture));
+        }
+
+        private static void BuildMultiPoint(StringBuilder builder, MultiPoint multiPoint)
+        {
+            builder.Append(WktTypes.MultiPoint);
+            builder.Append(" (");
+            for (var i = 0; i < multiPoint.Count; i++)
+            {
+                if (i > 0) builder.Append(", ");
+
+                BuildPointInner(builder, multiPoint[i] as Point);
+            }
+            builder.Append(")");
         }
 
         private static void BuildLineString(StringBuilder builder, LineString lineString, bool skipHeader = false)

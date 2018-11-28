@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.Serialization;
 using FluentAssertions;
 using GeoLibrary.IO.Wkt;
 using GeoLibrary.Model;
@@ -25,6 +24,15 @@ namespace GeoLibrary.Unit.IO.Facts.Wkt.Facts
             const string expectWkt = "POINT (10 20)";
 
             WktWriter.Write(point).Should().BeEquivalentTo(expectWkt);
+        }
+
+        [Fact]
+        public void If_multipoint_is_valid_then_should_return_wkt()
+        {
+            var multiPoint = new MultiPoint(new []{ new Point(10, 20), new Point(20, 30), new Point(30, 60) });
+            const string expectWkt = "MULTIPOINT (10 20, 20 30, 30 60)";
+
+            WktWriter.Write(multiPoint).Should().BeEquivalentTo(expectWkt);
         }
 
         [Fact]

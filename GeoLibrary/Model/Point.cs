@@ -48,7 +48,6 @@ namespace GeoLibrary.Model
                 return true;
 
             return Longitude.AlmostEqual(other.Longitude) && Latitude.AlmostEqual(other.Latitude);
-
         }
 
         public override int GetHashCode()

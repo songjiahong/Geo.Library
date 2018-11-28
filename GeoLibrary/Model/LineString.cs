@@ -71,7 +71,6 @@ namespace GeoLibrary.Model
             }
 
             return true;
-
         }
 
         public override int GetHashCode()
