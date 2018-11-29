@@ -22,6 +22,10 @@ namespace GeoLibrary.IO.Wkt
                         return ReadPoint(reader, builder);
                     case WktTypes.MultiPoint:
                         return ReadMultiPoint(reader, builder);
+                    case WktTypes.LineString:
+                        return ReadLineString(reader, builder);
+                    case WktTypes.Polygon:
+                        return ReadPolygon(reader, builder);
                     default:
                         throw new ArgumentException($"Not supported WKT type: {type}");
                 }
@@ -72,9 +76,62 @@ namespace GeoLibrary.IO.Wkt
             return new MultiPoint(points);
         }
 
+        private static LineString ReadLineString(TextReader reader, StringBuilder builder)
+        {
+            return new LineString(ReadPointsInner(reader, builder));
+        }
+
+        private static Polygon ReadPolygon(TextReader reader, StringBuilder builder)
+        {
+            var lineStrings = new List<LineString>();
+            if (reader.Read() != '(')
+                throw new ArgumentException("Invalid Polygon WKT");
+
+            while (reader.Peek() != -1)
+            {
+                lineStrings.Add(new LineString(ReadPointsInner(reader, builder)));
+                SkipWhiteSpaces(reader);
+                if (reader.Peek() == ')')
+                    break;
+                
+                if (reader.Read() != ',')
+                    throw new ArgumentException("Invalid Polygon WKT");
+
+                SkipWhiteSpaces(reader);
+            }
+
+            return new Polygon(lineStrings);
+        }
+
         private static Point ReadPointInner(TextReader reader, StringBuilder builder)
         {
             return new Point(ReadDouble(reader, builder), ReadDouble(reader, builder));
+        }
+
+        private static IEnumerable<Point> ReadPointsInner(TextReader reader, StringBuilder builder)
+        {
+            var points = new List<Point>();
+            if (reader.Read() != '(')
+                throw new ArgumentException("Invalid WKT");
+
+            while (reader.Peek() != -1)
+            {
+                points.Add(ReadPointInner(reader, builder));
+                SkipWhiteSpaces(reader);
+
+                if (reader.Peek() == ')')
+                {
+                    reader.Read();
+                    break;
+                }
+
+                if (reader.Read() != ',')
+                    throw new ArgumentException("Invalid WKT");
+
+                SkipWhiteSpaces(reader);
+            }
+
+            return points;
         }
 
         private static void ClearStringBuilder(StringBuilder builder)

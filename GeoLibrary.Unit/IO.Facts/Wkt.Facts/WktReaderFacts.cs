@@ -40,5 +40,39 @@ namespace GeoLibrary.Unit.IO.Facts.Wkt.Facts
 
             resultMultiPoint.Should().BeEquivalentTo(expectedMultiPoint);
         }
+
+        [Fact]
+        public void If_wkt_is_valid_linestring_then_should_return_correct_linestring()
+        {
+            const string wkt = "LINESTRING (30 10, 10 30, 40 40)";
+            var expectedLineString = new LineString(new[] { new Point(30, 10), new Point(10, 30), new Point(40, 40) });
+
+            var resultLineString = WktReader.Read(wkt);
+
+            resultLineString.Should().BeEquivalentTo(expectedLineString);
+        }
+
+        [Fact]
+        public void If_wkt_is_valid_polygon_then_should_return_correct_polygon()
+        {
+            const string wkt = "POLYGON ((30 10, 40 40, 20 40, 10 20, 30 10))";
+            var expectedPolygon = new Polygon(new[] { new Point(30, 10), new Point(40, 40), new Point(20, 40), new Point(10, 20), new Point(30, 10) });
+
+            var resultPolygon = WktReader.Read(wkt);
+
+            resultPolygon.Should().BeEquivalentTo(expectedPolygon);
+        }
+
+        [Fact]
+        public void If_wkt_is_valid_polygon_with_hole_then_should_return_correct_polygon()
+        {
+            const string wkt = "POLYGON ((30 10, 40 40, 20 40, 10 20, 30 10), (20 30, 35 35, 30 20, 20 30))";
+            var expectedPolygon = new Polygon(new[] { new Point(30, 10), new Point(40, 40), new Point(20, 40), new Point(10, 20), new Point(30, 10) });
+            expectedPolygon.LineStrings.Add(new LineString(new[] { new Point(20, 30), new Point(35, 35), new Point(30, 20), new Point(20, 30) }));
+
+            var resultPolygon = WktReader.Read(wkt);
+
+            resultPolygon.Should().BeEquivalentTo(expectedPolygon);
+        }
     }
 }
