@@ -26,6 +26,8 @@ namespace GeoLibrary.IO.Wkt
                         return ReadLineString(reader, builder);
                     case WktTypes.Polygon:
                         return ReadPolygon(reader, builder);
+                    case WktTypes.MultiPolygon:
+                        return ReadMultiPolygon(reader, builder);
                     default:
                         throw new ArgumentException($"Not supported WKT type: {type}");
                 }
@@ -44,8 +46,7 @@ namespace GeoLibrary.IO.Wkt
 
         private static Point ReadPoint(TextReader reader, StringBuilder builder)
         {
-            if (reader.Read() != '(')
-                throw new ArgumentException("Invalid Point WKT");
+            VerifyChar(reader, '(');
 
             return ReadPointInner(reader, builder);
         }
@@ -53,23 +54,20 @@ namespace GeoLibrary.IO.Wkt
         private static MultiPoint ReadMultiPoint(TextReader reader, StringBuilder builder)
         {
             var points = new List<Point>();
-            if (reader.Read() != '(')
-                throw new ArgumentException("Invalid MultiPoint WKT");
+            VerifyChar(reader, '(');
 
             var isOneArray = reader.Peek() != '(';
             while (reader.Peek() != -1)
             {
                 points.Add(isOneArray ? ReadPointInner(reader, builder) : ReadPoint(reader, builder));
                 SkipWhiteSpaces(reader);
-                if (isOneArray == false && reader.Read() != ')')
-                    throw new ArgumentException("Invalid MultiPoint WKT");
+                if (isOneArray == false)
+                    VerifyChar(reader, ')');
 
                 if (reader.Peek() == ')')
                     break;
 
-                if (reader.Read() != ',')
-                    throw new ArgumentException("Invalid MultiPoint WKT");
-
+                VerifyChar(reader, ',');
                 SkipWhiteSpaces(reader);
             }
 
@@ -84,8 +82,7 @@ namespace GeoLibrary.IO.Wkt
         private static Polygon ReadPolygon(TextReader reader, StringBuilder builder)
         {
             var lineStrings = new List<LineString>();
-            if (reader.Read() != '(')
-                throw new ArgumentException("Invalid Polygon WKT");
+            VerifyChar(reader, '(');
 
             while (reader.Peek() != -1)
             {
@@ -93,14 +90,32 @@ namespace GeoLibrary.IO.Wkt
                 SkipWhiteSpaces(reader);
                 if (reader.Peek() == ')')
                     break;
-                
-                if (reader.Read() != ',')
-                    throw new ArgumentException("Invalid Polygon WKT");
 
+                VerifyChar(reader, ',');
                 SkipWhiteSpaces(reader);
             }
 
             return new Polygon(lineStrings);
+        }
+
+        private static MultiPolygon ReadMultiPolygon(TextReader reader, StringBuilder builder)
+        {
+            var polygons = new List<Polygon>();
+            VerifyChar(reader, '(');
+
+            while (reader.Peek() != -1)
+            {
+                polygons.Add(ReadPolygon(reader, builder));
+                SkipWhiteSpaces(reader);
+                VerifyChar(reader, ')');
+                if (reader.Peek() == ')')
+                    break;
+
+                VerifyChar(reader, ',');
+                SkipWhiteSpaces(reader);
+            }
+
+            return new MultiPolygon(polygons);
         }
 
         private static Point ReadPointInner(TextReader reader, StringBuilder builder)
@@ -111,8 +126,7 @@ namespace GeoLibrary.IO.Wkt
         private static IEnumerable<Point> ReadPointsInner(TextReader reader, StringBuilder builder)
         {
             var points = new List<Point>();
-            if (reader.Read() != '(')
-                throw new ArgumentException("Invalid WKT");
+            VerifyChar(reader, '(');
 
             while (reader.Peek() != -1)
             {
@@ -125,9 +139,7 @@ namespace GeoLibrary.IO.Wkt
                     break;
                 }
 
-                if (reader.Read() != ',')
-                    throw new ArgumentException("Invalid WKT");
-
+                VerifyChar(reader, ',');
                 SkipWhiteSpaces(reader);
             }
 
@@ -170,6 +182,14 @@ namespace GeoLibrary.IO.Wkt
         private static bool IsLetter(char ch)
         {
             return ch != -1 && ch >= 'a' && ch <= 'z' || ch >= 'A' && ch <= 'Z';
+        }
+
+        private static void VerifyChar(TextReader reader, char @char)
+        {
+            if (reader.Peek() != @char)
+                throw new ArgumentException($"Invalid WKT! Expect '{@char}' but '{reader.Peek()}'");
+
+            reader.Read();
         }
     }
 }

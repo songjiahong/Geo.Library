@@ -52,5 +52,19 @@ namespace GeoLibrary.Unit.IO.Facts.Wkt.Facts
 
             WktWriter.Write(polygon).Should().BeEquivalentTo(expectWkt);
         }
+
+        [Fact]
+        public void If_multipolygon_is_valid_then_should_return_wkt()
+        {
+            var multiPolygon = new MultiPolygon(new []
+            {
+                new Polygon(new[] { new LineString(new[] { new Point(30, 20), new Point(45, 40), new Point(10, 40), new Point(30, 20) }) }),
+                new Polygon(new[] { new LineString(new[] { new Point(15, 5), new Point(40, 10), new Point(10, 20), new Point(5, 10), new Point(15, 5) }) })
+            });
+                
+            const string expectWkt = "MULTIPOLYGON (((30 20, 45 40, 10 40, 30 20)), ((15 5, 40 10, 10 20, 5 10, 15 5)))";
+
+            WktWriter.Write(multiPolygon).Should().BeEquivalentTo(expectWkt);
+        }
     }
 }

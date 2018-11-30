@@ -3,21 +3,21 @@ using System.Linq;
 
 namespace GeoLibrary.Model
 {
-    public class MultiPoint : GeometryCollection
+    public class MultiPolygon : GeometryCollection
     {
-        public MultiPoint(IEnumerable<Point> points) : base(points)
+        public MultiPolygon(IEnumerable<Polygon> polygons) : base(polygons)
         {
         }
 
-        public MultiPoint() : this(null)
+        public MultiPolygon() : this(null)
         {
         }
 
-        public override bool IsValid => base.IsValid && Geometries.All(x => x is Point);
+        public override bool IsValid => base.IsValid && Geometries.All(x => x is Polygon);
 
         public override bool Equals(object obj)
         {
-            if (!(obj is MultiPoint other)) return false;
+            if (!(obj is MultiPolygon other)) return false;
 
             if (ReferenceEquals(this, other)) return true;
 
@@ -44,12 +44,12 @@ namespace GeoLibrary.Model
             return base.GetHashCode();
         }
 
-        public static bool operator ==(MultiPoint left, MultiPoint right)
+        public static bool operator ==(MultiPolygon left, MultiPolygon right)
         {
             return left?.Equals(right) ?? ReferenceEquals(right, null);
         }
 
-        public static bool operator !=(MultiPoint left, MultiPoint right)
+        public static bool operator !=(MultiPolygon left, MultiPolygon right)
         {
             return !(left == right);
         }

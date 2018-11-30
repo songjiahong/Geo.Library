@@ -36,6 +36,9 @@ namespace GeoLibrary.IO.Wkt
                 case Polygon polygon:
                     BuildPolygon(builder, polygon);
                     return;
+                case MultiPolygon multiPolygon:
+                    BuildMultiPolygon(builder, multiPolygon);
+                    return;
                 default:
                     throw new ArgumentException($"Not supported geometry type: {geometry.GetType()}");
             }
@@ -100,6 +103,19 @@ namespace GeoLibrary.IO.Wkt
                 if (i > 0) builder.Append(", ");
 
                 BuildLineString(builder, polygon[i], true);
+            }
+
+            builder.Append(")");
+        }
+
+        private static void BuildMultiPolygon(StringBuilder builder, MultiPolygon multiPolygon)
+        {
+            builder.Append(WktTypes.MultiPolygon).Append(" (");
+            for (var i = 0; i < multiPolygon.Count; i++)
+            {
+                if (i > 0) builder.Append(", ");
+
+                BuildPolygon(builder, multiPolygon[i] as Polygon, true);
             }
 
             builder.Append(")");
