@@ -115,5 +115,24 @@ namespace GeoLibrary.Unit.Model.Facts
 
             (point == other).Should().BeFalse();
         }
+
+        [Fact]
+        public void Clone_an_invalid_point_should_be_an_invalid_point()
+        {
+            var point = new Point();
+
+            var copied = point.Clone();
+
+            copied.IsValid.Should().BeFalse();
+            (copied is Point).Should().BeTrue();
+        }
+
+        [Fact]
+        public void Clone_a_valid_point_should_equal()
+        {
+            var point = new Point(100, 50);
+
+            point.Clone().Equals(point).Should().BeTrue();
+        }
     }
 }

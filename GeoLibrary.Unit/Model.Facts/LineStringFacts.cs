@@ -146,5 +146,21 @@ namespace GeoLibrary.Unit.Model.Facts
 
             (lineString == other).Should().BeFalse();
         }
+
+        [Fact]
+        public void Clone_an_invalid_linestring_should_still_invalid()
+        {
+            var lineString = new LineString();
+
+            lineString.Clone().IsValid.Should().BeFalse();
+        }
+
+        [Fact]
+        public void Clone_a_valid_linestring_should_equal()
+        {
+            var lineString = new LineString(new[] { new Point(120, 50) });
+
+            lineString.Clone().Equals(lineString).Should().BeTrue();
+        }
     }
 }

@@ -19,7 +19,7 @@ namespace GeoLibrary.Unit.Model.Facts
         [InlineData(120, -91)]
         public void If_multipoint_with_out_of_range_latlng_then_it_should_be_invalid(double longitude, double latitude)
         {
-            var multiPoint = new MultiPoint(new []{ new Point(longitude, latitude) });
+            var multiPoint = new MultiPoint(new[] { new Point(longitude, latitude) });
 
             multiPoint.IsValid.Should().BeFalse();
         }
@@ -109,6 +109,25 @@ namespace GeoLibrary.Unit.Model.Facts
             MultiPoint multiPoint = null, other = new MultiPoint();
 
             (multiPoint == other).Should().BeFalse();
+        }
+
+        [Fact]
+        public void Clone_an_invalid_multipoint_should_be_invalid()
+        {
+            var multiPoint = new MultiPoint();
+
+            multiPoint.Clone().IsValid.Should().BeFalse();
+        }
+
+        [Fact]
+        public void Clone_a_valid_multipoint_should_equal_but_not_same()
+        {
+            var multiPoint = new MultiPoint(new[] { new Point(-170.1, 90), new Point(120, -70) });
+
+            var copiedMultiPoint = multiPoint.Clone();
+
+            ReferenceEquals(multiPoint, copiedMultiPoint).Should().BeFalse();
+            copiedMultiPoint.Equals(multiPoint).Should().BeTrue();
         }
     }
 }

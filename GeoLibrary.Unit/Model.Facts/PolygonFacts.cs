@@ -71,5 +71,24 @@ namespace GeoLibrary.Unit.Model.Facts
             polygon.Equals(other).Should().BeTrue();
             (polygon != other).Should().BeFalse();
         }
+
+        [Fact]
+        public void Clone_an_invalid_polygon_should_be_invalid()
+        {
+            var polygon = new Polygon();
+
+            polygon.Clone().IsValid.Should().BeFalse();
+        }
+
+        [Fact]
+        public void Clone_a_valid_polygon_should_be_valid_and_equal()
+        {
+            var polygon = new Polygon(new[] { new LineString(new[] { new Point(-120, 30), new Point(0, 0), new Point(120, 30), new Point(-120, 30) }) });
+
+            var copied = polygon.Clone();
+
+            copied.IsValid.Should().BeTrue();
+            copied.Equals(polygon).Should().BeTrue();
+        }
     }
 }

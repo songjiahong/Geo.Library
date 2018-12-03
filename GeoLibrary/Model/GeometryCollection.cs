@@ -5,6 +5,8 @@ namespace GeoLibrary.Model
 {
     public abstract class GeometryCollection : Geometry
     {
+        protected abstract GeometryCollection CreateNew();
+
         public int Count => Geometries?.Count ?? 0;
 
         public bool IsEmpty => Count == 0;
@@ -23,5 +25,16 @@ namespace GeoLibrary.Model
         public override bool IsValid => !IsEmpty && Geometries.All(x => x.IsValid);
 
         public Geometry this[int index] => Geometries[index];
+
+        public override Geometry Clone()
+        {
+            var result = CreateNew();
+            foreach (var item in Geometries.Select(x => x.Clone()))
+            {
+                result.Geometries.Add(item);
+            }
+
+            return result;
+        }
     }
 }

@@ -53,5 +53,10 @@ namespace GeoLibrary.Model
         {
             return !(left == right);
         }
+
+        protected override GeometryCollection CreateNew()
+        {
+            return new MultiPolygon();
+        }
     }
 }

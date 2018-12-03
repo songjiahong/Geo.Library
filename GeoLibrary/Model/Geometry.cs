@@ -5,6 +5,7 @@ namespace GeoLibrary.Model
     public abstract class Geometry
     {
         public abstract bool IsValid { get; }
+        public abstract Geometry Clone();
 
         public virtual Geometry Union(Geometry other)
         {

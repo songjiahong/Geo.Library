@@ -64,5 +64,10 @@ namespace GeoLibrary.Model
         {
             return !(left == right);
         }
+
+        public override Geometry Clone()
+        {
+            return new Point(Longitude, Latitude);
+        }
     }
 }

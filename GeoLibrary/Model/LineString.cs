@@ -87,5 +87,10 @@ namespace GeoLibrary.Model
         {
             return !(left == right);
         }
+
+        public override Geometry Clone()
+        {
+            return new LineString(Coordinates.Select(x => x.Clone() as Point));
+        }
     }
 }

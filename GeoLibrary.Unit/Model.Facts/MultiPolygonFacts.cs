@@ -100,5 +100,24 @@ namespace GeoLibrary.Unit.Model.Facts
 
             (multiPolygon == other).Should().BeFalse();
         }
+
+        [Fact]
+        public void Clone_an_invalid_multipolygon_should_be_invalid()
+        {
+            var multiPolygon = new MultiPolygon();
+
+            multiPolygon.Clone().IsValid.Should().BeFalse();
+        }
+
+        [Fact]
+        public void Clone_a_valid_multipolygon_should_equal_but_not_same()
+        {
+            var multiPolygon = new MultiPolygon(new[] { new Polygon(new[] { new LineString(new[] { new Point(30, 20), new Point(45, 40), new Point(10, 40), new Point(30, 20) }) }) });
+
+            var copiedOne = multiPolygon.Clone();
+
+            ReferenceEquals(multiPolygon, copiedOne).Should().BeFalse();
+            multiPolygon.Equals(copiedOne).Should().BeTrue();
+        }
     }
 }
