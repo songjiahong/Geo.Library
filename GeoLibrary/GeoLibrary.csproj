@@ -2,6 +2,15 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard1.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>0.1.0</Version>
+    <Authors>Jiahong Song</Authors>
+    <Company></Company>
+    <Description>Geo 2D library to read/write to wkt/geojson and do intersection, union, difference etc calculation. Support point, mulitpoint, polygon, multipolygon.</Description>
+    <RepositoryUrl></RepositoryUrl>
+    <PackageTags>geo,WKT</PackageTags>
+    <PackageProjectUrl>https://github.com/songjiahong/Geo.Library</PackageProjectUrl>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/songjiahong/Geo.Library/master/LICENSE</PackageLicenseUrl>
   </PropertyGroup>
 
   <ItemGroup>
