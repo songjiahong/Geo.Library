@@ -55,8 +55,8 @@ namespace GeoLibrary.Unit.IO.Facts.Wkt.Facts
         [Fact]
         public void If_wkt_is_valid_polygon_then_should_return_correct_polygon()
         {
-            const string wkt = "POLYGON ((30 10, 40 40, 20 40, 10 20, 30 10))";
-            var expectedPolygon = new Polygon(new[] { new Point(30, 10), new Point(40, 40), new Point(20, 40), new Point(10, 20), new Point(30, 10) });
+            const string wkt = "POLYGON ((30 10, 40 40, 20 40, 5E-03 20, 30 10))";
+            var expectedPolygon = new Polygon(new[] { new Point(30, 10), new Point(40, 40), new Point(20, 40), new Point(0.005, 20), new Point(30, 10) });
 
             var resultPolygon = WktReader.Read(wkt);
 

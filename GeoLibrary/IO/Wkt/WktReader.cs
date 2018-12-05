@@ -176,7 +176,7 @@ namespace GeoLibrary.IO.Wkt
 
         private static bool IsDigit(char ch)
         {
-            return ch != -1 && ch >= '0' && ch <= '9' || ch == '.' || ch == '-';
+            return ch != -1 && ch >= '0' && ch <= '9' || ch == '.' || ch == '-' || ch == 'e' || ch == 'E';
         }
 
         private static bool IsLetter(char ch)
