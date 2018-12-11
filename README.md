@@ -4,6 +4,11 @@
 
 Geo 2D library to read/write to wkt/geojson and do intersection, union, difference etc calculation. Support point, mulitpoint, polygon, multipolygon.
 
+## Nuget
+```
+Install-Package GeoLibrary -Version 0.1.1
+```
+
 ## Support Geometry Types
 * Point
 * MultiPoint
