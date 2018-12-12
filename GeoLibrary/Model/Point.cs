@@ -1,4 +1,6 @@
-﻿using GeoLibrary.Extension;
+﻿using System;
+using GeoLibrary.Extension;
+using GeoLibrary.Operation;
 
 namespace GeoLibrary.Model
 {
@@ -68,6 +70,45 @@ namespace GeoLibrary.Model
         public override Geometry Clone()
         {
             return new Point(Longitude, Latitude);
+        }
+
+        public override Geometry Union(Geometry other)
+        {
+            switch (other)
+            {
+                case Point point:
+                    return UnionOperator.Union(this, point);
+                case MultiPoint multiPoint:
+                    return UnionOperator.Union(this, multiPoint);
+                default:
+                    throw new Exception("Not supported type!");
+            }
+        }
+
+        public override bool IsIntersects(Geometry other)
+        {
+            switch (other)
+            {
+                case Point point:
+                    return IntersectCheckOperator.IsIntersects(this, point);
+                case MultiPoint multiPoint:
+                    return IntersectCheckOperator.IsIntersects(this, multiPoint);
+                default:
+                    throw new Exception("Not supported type!");
+            }
+        }
+
+        public override Geometry Intersection(Geometry other)
+        {
+            switch (other)
+            {
+                case Point point:
+                    return IntersectionOperator.Intersection(point, this);
+                case MultiPoint multiPoint:
+                    return IntersectionOperator.Intersection(this, multiPoint);
+                default:
+                    throw new Exception("Not supported type!");
+            }
         }
     }
 }

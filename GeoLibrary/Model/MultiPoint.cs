@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using GeoLibrary.Operation;
 
 namespace GeoLibrary.Model
 {
@@ -57,6 +59,42 @@ namespace GeoLibrary.Model
         protected override GeometryCollection CreateNew()
         {
             return new MultiPoint();
+        }
+
+        public override Geometry Union(Geometry other)
+        {
+            switch (other)
+            {
+                case Point point:
+                    return UnionOperator.Union(point, this);
+                case MultiPoint multiPoint:
+                default:
+                    throw new Exception("Not supported type!");
+            }
+        }
+
+        public override bool IsIntersects(Geometry other)
+        {
+            switch (other)
+            {
+                case Point point:
+                    return IntersectCheckOperator.IsIntersects(point, this);
+                case MultiPoint multiPoint:
+                default:
+                    throw new Exception("Not supported type!");
+            }
+        }
+
+        public override Geometry Intersection(Geometry other)
+        {
+            switch (other)
+            {
+                case Point point:
+                    return IntersectionOperator.Intersection(point, this);
+                case MultiPoint multiPoint:
+                default:
+                    throw new Exception("Not supported type!");
+            }
         }
     }
 }

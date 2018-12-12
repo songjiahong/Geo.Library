@@ -12,7 +12,7 @@ namespace GeoLibrary.Model
             throw new Exception("Not supported type!");
         }
 
-        public virtual Geometry IsIntersects(Geometry other)
+        public virtual bool IsIntersects(Geometry other)
         {
             throw new Exception("Not supported type!");
         }
