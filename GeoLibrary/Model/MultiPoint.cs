@@ -68,6 +68,7 @@ namespace GeoLibrary.Model
                 case Point point:
                     return UnionOperator.Union(point, this);
                 case MultiPoint multiPoint:
+                    return UnionOperator.Union(this, multiPoint);
                 default:
                     throw new Exception("Not supported type!");
             }
@@ -80,6 +81,7 @@ namespace GeoLibrary.Model
                 case Point point:
                     return IntersectCheckOperator.IsIntersects(point, this);
                 case MultiPoint multiPoint:
+                    return IntersectCheckOperator.IsIntersects(multiPoint, this);
                 default:
                     throw new Exception("Not supported type!");
             }
@@ -92,6 +94,7 @@ namespace GeoLibrary.Model
                 case Point point:
                     return IntersectionOperator.Intersection(point, this);
                 case MultiPoint multiPoint:
+                    return IntersectionOperator.Intersection(multiPoint, this);
                 default:
                     throw new Exception("Not supported type!");
             }
