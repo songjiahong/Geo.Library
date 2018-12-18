@@ -8,13 +8,26 @@ namespace GeoLibrary.Operation
     {
         public static Geometry Union(Point point1, Point point2)
         {
-            return point2.Equals(point1) || point2.IsValid == false ? point1.Clone() : point1.IsValid ? new MultiPoint(new[] { point1, point2 }) : point2.Clone();
+            if (point1?.IsValid != true)
+            {
+                return point2?.IsValid == true ? point2.Clone() : null;
+            }
+
+            return point1.Equals(point2) || point2.IsValid == false ? point1.Clone() : new MultiPoint(new[] { point1, point2 });
         }
 
         public static Geometry Union(Point point, MultiPoint multiPoint)
         {
+            if (IntersectCheckOperator.IsIntersects(point, multiPoint))
+            {
+                return multiPoint.Clone();
+            }
+
+            if (multiPoint?.IsValid != true)
+                return point?.IsValid == true ? point.Clone() : null;
+
             var nMultiPoint = multiPoint.Clone() as MultiPoint;
-            if (nMultiPoint.Geometries.All(x => x.Equals(point) == false) && point.IsValid)
+            if (point?.IsValid == true)
             {
                 nMultiPoint.Geometries.Add(point.Clone());
             }
@@ -24,10 +37,10 @@ namespace GeoLibrary.Operation
 
         public static Geometry Union(MultiPoint multiPoint1, MultiPoint multiPoint2)
         {
-            if (multiPoint1.IsValid == false)
-                return multiPoint2.Clone();
+            if (multiPoint1?.IsValid != true)
+                return multiPoint2?.IsValid == true ? multiPoint2.Clone() : null;
 
-            if (multiPoint2.IsValid == false)
+            if (multiPoint2?.IsValid != true)
                 return multiPoint1.Clone();
 
             var points = new List<Point>();
@@ -55,7 +68,6 @@ namespace GeoLibrary.Operation
             {
                 return new MultiPoint(points);
             }
-
         }
     }
 }

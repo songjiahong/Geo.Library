@@ -7,12 +7,15 @@ namespace GeoLibrary.Operation
     {
         public static bool IsIntersects(Point point1, Point point2)
         {
-            return point2.IsValid && point2.Equals(point1);
+            if (point2?.IsValid != true)
+                return false;
+
+            return point2.Equals(point1);
         }
 
         public static bool IsIntersects(Point point, MultiPoint multiPoint)
         {
-            if (point.IsValid == false)
+            if (point?.IsValid != true || multiPoint?.IsValid != true)
                 return false;
 
             return multiPoint.Geometries.Any(x => x.Equals(point));
@@ -20,20 +23,18 @@ namespace GeoLibrary.Operation
 
         public static bool IsIntersects(MultiPoint multiPoint1, MultiPoint multiPoint2)
         {
-            if (multiPoint1.IsValid && multiPoint2.IsValid)
-            {
-                foreach (Point point in multiPoint1.Geometries)
-                {
-                    if (multiPoint2.Geometries.Any(x => x.Equals(point)))
-                    {
-                        return true;
-                    }
-                }
-
+            if (multiPoint1?.IsValid != true || multiPoint2?.IsValid != true)
                 return false;
+
+            foreach (Point point in multiPoint1.Geometries)
+            {
+                if (multiPoint2.Geometries.Any(x => x.Equals(point)))
+                {
+                    return true;
+                }
             }
 
-            return multiPoint1.IsValid == multiPoint2.IsValid;
+            return false;
         }
     }
 }

@@ -14,7 +14,17 @@ namespace GeoLibrary.Unit.Operation.Facts
             var multiPoint1 = new MultiPoint();
 
             var result = multiPoint.Union(multiPoint1);
-            result.IsValid.Should().BeFalse();
+            result.Should().BeNull();
+        }
+
+        [Fact]
+        public void Union_valid_multipoints_with_invalid_point_should_get_multipoint()
+        {
+            var multiPoint = new MultiPoint(new[] { new Point(100, 50), new Point(120, 60) });
+            var point = new Point();
+
+            var result = multiPoint.Union(point);
+            result.Equals(multiPoint).Should().BeTrue();
         }
 
         [Fact]

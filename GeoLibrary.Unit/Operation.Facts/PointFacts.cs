@@ -66,6 +66,16 @@ namespace GeoLibrary.Unit.Operation.Facts
         }
 
         [Fact]
+        public void Invalid_point_union_invalid_multipoint_should_return_null()
+        {
+            var point = new Point();
+            var multiPoint = new MultiPoint();
+
+            var unionGeo = point.Union(multiPoint);
+            unionGeo.Should().BeNull();
+        }
+
+        [Fact]
         public void Point_union_linestring_should_not_support()
         {
             var point = new Point();
