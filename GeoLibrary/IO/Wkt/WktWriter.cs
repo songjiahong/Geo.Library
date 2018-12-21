@@ -20,6 +20,11 @@ namespace GeoLibrary.IO.Wkt
             return builder.ToString();
         }
 
+        public static string ToWkt(this Geometry geometry)
+        {
+            return Write(geometry);
+        }
+
         private static void Build(StringBuilder builder, Geometry geometry)
         {
             switch (geometry)

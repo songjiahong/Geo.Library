@@ -23,7 +23,9 @@ namespace GeoLibrary.Unit.IO.Facts.Wkt.Facts
             var point = new Point(10, 20);
             const string expectWkt = "POINT (10 20)";
 
-            WktWriter.Write(point).Should().BeEquivalentTo(expectWkt);
+            var resultWkt = WktWriter.Write(point);
+            resultWkt.Should().BeEquivalentTo(expectWkt);
+            point.ToWkt().Should().BeEquivalentTo(expectWkt);
         }
 
         [Fact]

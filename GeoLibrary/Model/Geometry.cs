@@ -1,4 +1,5 @@
 ﻿using System;
+using GeoLibrary.IO.Wkt;
 
 namespace GeoLibrary.Model
 {
@@ -6,6 +7,11 @@ namespace GeoLibrary.Model
     {
         public abstract bool IsValid { get; }
         public abstract Geometry Clone();
+
+        public static Geometry FromWkt(string wkt)
+        {
+            return WktReader.Read(wkt);
+        }
 
         public virtual Geometry Union(Geometry other)
         {
