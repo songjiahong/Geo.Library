@@ -17,11 +17,22 @@ Install-Package GeoLibrary -Version 0.2.0
 * MultiPolygon
 
 ## Features
-* Read from WKT string
-* Write to WKT string
-* Check intersection between points and mulitpoints
-* Calculate intersection between points and mulitpoints
-* Calculate union of points and mulitpoints
+* WKT Support
+  * Read from WKT string
+  * Write to WKT string
+* Geometry Operations
+  * Intersection Check
+    * Point & Point
+    * Point & MultiPoint
+    * MultiPoint & MultiPoint
+  * Intersects
+    * Point & Point
+    * Point & MultiPoint
+    * MultiPoint & MultiPoint
+  * Union
+    * Point & Point
+    * Point & MultiPoint
+    * MultiPoint & MultiPoint
 
 ## Usage
 
