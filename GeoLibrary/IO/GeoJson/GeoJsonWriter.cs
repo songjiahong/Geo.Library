@@ -6,7 +6,7 @@ using GeoLibrary.Model;
 
 namespace GeoLibrary.IO.GeoJson
 {
-    internal static class GeoJsonWriter
+    public static class GeoJsonWriter
     {
         public static string Write(Geometry geometry)
         {
@@ -81,6 +81,7 @@ namespace GeoLibrary.IO.GeoJson
         private static void BuildMultiPolygon(StringBuilder builder, MultiPolygon multiPolygon)
         {
             AppendType(builder, GeoJsonTypes.MultiPolygon);
+            builder.Append("[");
             var polygons = multiPolygon.Geometries.Select(x => x as Polygon).ToList();
             for (var i = 0; i < polygons.Count; i++)
             {
