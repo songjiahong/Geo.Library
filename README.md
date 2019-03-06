@@ -6,7 +6,7 @@ Geo 2D library to read/write to wkt/geojson and do intersection, union, differen
 
 ## Nuget
 ```
-Install-Package GeoLibrary -Version 0.2.0
+Install-Package GeoLibrary -Version 0.3.0
 ```
 
 ## Support Geometry Types
@@ -20,6 +20,9 @@ Install-Package GeoLibrary -Version 0.2.0
 * WKT Support
   * Read from WKT string
   * Write to WKT string
+* GeoJson Support
+  * Read from GeoJson string
+  * Write to GeoJson string
 * Geometry Operations
   * Intersection Check
     * Point & Point
@@ -38,7 +41,10 @@ Install-Package GeoLibrary -Version 0.2.0
 
 ```csharp
 string wkt = "POINT (10 20)";
-var point = WktReader.Read(wkt);
+var point = Geometry.FromWkt(wkt);
+var pointWkt = point.ToWkt();
 
-var pointWkt = WktWriter.Write(point);
+string geoJson = "{\"type\": \"LineString\", \"coordinates\": [[30, 10], [10, 30], [40, 40]] }"
+var lineString = Geometry.FromGeoJson(geoJson);
+var lineStringGeoJson = lineString.ToGeoJson();
 ```
