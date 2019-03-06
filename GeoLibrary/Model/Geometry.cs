@@ -1,4 +1,5 @@
 ﻿using System;
+using GeoLibrary.IO.GeoJson;
 using GeoLibrary.IO.Wkt;
 
 namespace GeoLibrary.Model
@@ -11,6 +12,11 @@ namespace GeoLibrary.Model
         public static Geometry FromWkt(string wkt)
         {
             return WktReader.Read(wkt);
+        }
+
+        public static Geometry FromGeoJson(string json)
+        {
+            return GeoJsonReader.Read(json);
         }
 
         public virtual Geometry Union(Geometry other)

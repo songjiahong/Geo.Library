@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using GeoLibrary.Extension;
 using GeoLibrary.Model;
 
 namespace GeoLibrary.IO.Wkt
@@ -57,7 +58,7 @@ namespace GeoLibrary.IO.Wkt
             VerifyChar(reader, '(');
 
             var isOneArray = reader.Peek() != '(';
-            while (reader.Peek() != -1)
+            while (reader.IsEOT() == false)
             {
                 points.Add(isOneArray ? ReadPointInner(reader, builder) : ReadPoint(reader, builder));
                 SkipWhiteSpaces(reader);
@@ -84,7 +85,7 @@ namespace GeoLibrary.IO.Wkt
             var lineStrings = new List<LineString>();
             VerifyChar(reader, '(');
 
-            while (reader.Peek() != -1)
+            while (reader.IsEOT() == false)
             {
                 lineStrings.Add(new LineString(ReadPointsInner(reader, builder)));
                 SkipWhiteSpaces(reader);
@@ -103,7 +104,7 @@ namespace GeoLibrary.IO.Wkt
             var polygons = new List<Polygon>();
             VerifyChar(reader, '(');
 
-            while (reader.Peek() != -1)
+            while (reader.IsEOT() == false)
             {
                 polygons.Add(ReadPolygon(reader, builder));
                 SkipWhiteSpaces(reader);
@@ -128,7 +129,7 @@ namespace GeoLibrary.IO.Wkt
             var points = new List<Point>();
             VerifyChar(reader, '(');
 
-            while (reader.Peek() != -1)
+            while (reader.IsEOT() == false)
             {
                 points.Add(ReadPointInner(reader, builder));
                 SkipWhiteSpaces(reader);
