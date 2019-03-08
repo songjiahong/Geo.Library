@@ -16,8 +16,7 @@ namespace GeoLibrary.IO.GeoJson
 
         public static Geometry Read(string json)
         {
-            var reader = new GeoJsonReader();
-            var jsonObj = reader.ParseObject(json);
+            var jsonObj = ParseObject(json);
             if (jsonObj == null)
             {
                 throw new ArgumentException("Invalid json object!");
@@ -35,18 +34,18 @@ namespace GeoLibrary.IO.GeoJson
                 case GeoJsonTypes.LineString:
                     return new LineString(jsonObj[KeyCoordinates] as List<Point>);
                 case GeoJsonTypes.Polygon:
-                    return reader.GetPolygon(jsonObj[KeyCoordinates] as List<List<Point>>);
+                    return GetPolygon(jsonObj[KeyCoordinates] as List<List<Point>>);
                 case GeoJsonTypes.MultiPoint:
                     return new MultiPoint(jsonObj[KeyCoordinates] as List<Point>);
                 case GeoJsonTypes.MultiPolygon:
                     var points = jsonObj[KeyCoordinates] as List<List<List<Point>>>;
-                    return new MultiPolygon(points.Select(reader.GetPolygon).ToList());
+                    return new MultiPolygon(points.Select(GetPolygon).ToList());
                 default:
                     throw new ArgumentException($"Not supported type: {jsonObj[KeyType]}!");
             }
         }
 
-        private JsonObject ParseObject(string json)
+        private static JsonObject ParseObject(string json)
         {
             var builder = new StringBuilder();
             using (var reader = new StringReader(json))
@@ -83,7 +82,7 @@ namespace GeoLibrary.IO.GeoJson
             }
         }
 
-        private Polygon GetPolygon(List<List<Point>> points)
+        private static Polygon GetPolygon(List<List<Point>> points)
         {
             if (points.Count == 1)
             {
@@ -101,7 +100,7 @@ namespace GeoLibrary.IO.GeoJson
             }
         }
 
-        private bool ParseJsonObject(TextReader reader, StringBuilder builder, ref JsonObject jsonObject)
+        private static bool ParseJsonObject(TextReader reader, StringBuilder builder, ref JsonObject jsonObject)
         {
             if (SkipWhitespace(reader))
                 return false;
@@ -184,7 +183,7 @@ namespace GeoLibrary.IO.GeoJson
             return false;
         }
 
-        private string ReadString(TextReader reader, StringBuilder builder)
+        private static string ReadString(TextReader reader, StringBuilder builder)
         {
             ClearStringBuilder(builder);
 
@@ -203,7 +202,7 @@ namespace GeoLibrary.IO.GeoJson
         /// </summary>
         /// <param name="reader">source text reader</param>
         /// <returns>true if reach end of text, false otherwise</returns>
-        private bool SkipWhitespace(TextReader reader)
+        private static bool SkipWhitespace(TextReader reader)
         {
             while (reader.IsEOT() == false && SpaceCharacters.IndexOf((char)reader.Peek()) != -1)
             {
@@ -213,7 +212,7 @@ namespace GeoLibrary.IO.GeoJson
             return reader.IsEOT();
         }
 
-        private void VerifyChar(TextReader reader, char @char)
+        private static void VerifyChar(TextReader reader, char @char)
         {
             if (reader.Peek() != @char)
                 throw new ArgumentException($"Invalid Json! Expect '{@char}' but '{reader.Peek()}'");
@@ -221,7 +220,7 @@ namespace GeoLibrary.IO.GeoJson
             reader.Read();
         }
 
-        private void ClearStringBuilder(StringBuilder builder)
+        private static void ClearStringBuilder(StringBuilder builder)
         {
             if (builder.Length > 0)
             {
@@ -229,12 +228,12 @@ namespace GeoLibrary.IO.GeoJson
             }
         }
 
-        private bool IsDigit(char ch)
+        private static bool IsDigit(char ch)
         {
             return ch != -1 && ch >= '0' && ch <= '9' || ch == '.' || ch == '-' || ch == 'e' || ch == 'E';
         }
 
-        private double ReadDouble(TextReader reader, StringBuilder builder)
+        private static double ReadDouble(TextReader reader, StringBuilder builder)
         {
             ClearStringBuilder(builder);
             // skip whitespaces in head
@@ -246,7 +245,7 @@ namespace GeoLibrary.IO.GeoJson
             return builder.Length == 0 ? throw new ArgumentException("Invalid number") : double.Parse(builder.ToString());
         }
 
-        private Point ReadPoint(TextReader reader, StringBuilder builder, bool verifyBeginning = false)
+        private static Point ReadPoint(TextReader reader, StringBuilder builder, bool verifyBeginning = false)
         {
             if (verifyBeginning)
             {
@@ -264,7 +263,7 @@ namespace GeoLibrary.IO.GeoJson
             return new Point(longitude, latitude);
         }
 
-        private List<T> ReadPoints<T>(TextReader reader, StringBuilder builder, Func<TextReader, StringBuilder, bool, T> readFunc, bool verifyBeginning = false)
+        private static List<T> ReadPoints<T>(TextReader reader, StringBuilder builder, Func<TextReader, StringBuilder, bool, T> readFunc, bool verifyBeginning = false)
         {
             if (verifyBeginning)
             {
@@ -301,17 +300,17 @@ namespace GeoLibrary.IO.GeoJson
             return points;
         }
 
-        private List<Point> ReadPointArray(TextReader reader, StringBuilder builder, bool verifyBeginning = false)
+        private static List<Point> ReadPointArray(TextReader reader, StringBuilder builder, bool verifyBeginning = false)
         {
             return ReadPoints(reader, builder, ReadPoint, verifyBeginning);
         }
 
-        private List<List<Point>> ReadPointArrayArray(TextReader reader, StringBuilder builder, bool verifyBeginning = false)
+        private static List<List<Point>> ReadPointArrayArray(TextReader reader, StringBuilder builder, bool verifyBeginning = false)
         {
             return ReadPoints(reader, builder, ReadPointArray, verifyBeginning);
         }
 
-        private List<List<List<Point>>> ReadPointTripleArray(TextReader reader, StringBuilder builder, bool verifyBeginning = false)
+        private static List<List<List<Point>>> ReadPointTripleArray(TextReader reader, StringBuilder builder, bool verifyBeginning = false)
         {
             return ReadPoints(reader, builder, ReadPointArrayArray, verifyBeginning);
         }
