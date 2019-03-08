@@ -4,7 +4,7 @@ using GeoLibrary.IO.Wkt;
 using GeoLibrary.Model;
 using Xunit;
 
-namespace GeoLibrary.Unit.IO.Facts.Wkt.Facts
+namespace GeoLibrary.Unit.IO.Wkt.Facts
 {
     public class WktReaderFacts
     {
