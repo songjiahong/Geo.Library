@@ -20,34 +20,7 @@ namespace GeoLibrary.IO.Wkb
             {
                 using (var reader = new EndianBinaryReader(stream))
                 {
-                    reader.IsBigEndian = !reader.ReadBoolean();
-                    uint type = reader.ReadUInt32();
-                    var hasSrid = (type & SridFlag) == SridFlag;
-                    type &= 0xFF;
-                    var geomType = (GeometryType)(type % 1000);
-                    var dimension = (Dimension)(type - type % 1000);
-                    UInt32 srid = 0;
-                    if (hasSrid)
-                    {
-                        srid = reader.ReadUInt32();
-                    }
-
-                    switch (geomType)
-                    {
-                        case GeometryType.Point:
-                            return ReadPoint(reader);
-                        case GeometryType.LineString:
-                            return ReadLineString(reader);
-                        case GeometryType.Polygon:
-                            return ReadPolygon(reader);
-                        case GeometryType.MultiPoint:
-                        case GeometryType.MultiLineString:
-                        case GeometryType.MultiPolygon:
-                        case GeometryType.Geometry:
-                        case GeometryType.GeometryCollection:
-                        default:
-                            throw new NotSupportedException($"Not supported geometry type: {geomType}");
-                    }
+                    return Parse(reader);
                 }
             }
         }
@@ -67,9 +40,58 @@ namespace GeoLibrary.IO.Wkb
             }
         }
 
+        private static Geometry Parse(EndianBinaryReader reader)
+        {
+            reader.IsBigEndian = !reader.ReadBoolean();
+            uint type = reader.ReadUInt32();
+            var hasSrid = (type & SridFlag) == SridFlag;
+            type &= 0xFF;
+            var geomType = (GeometryType)(type % 1000);
+            var dimension = (Dimension)(type - type % 1000);
+            UInt32 srid = 0;
+            if (hasSrid)
+            {
+                srid = reader.ReadUInt32();
+            }
+
+            switch (geomType)
+            {
+                case GeometryType.Point:
+                    return ReadPoint(reader);
+                case GeometryType.LineString:
+                    return ReadLineString(reader);
+                case GeometryType.Polygon:
+                    return ReadPolygon(reader);
+                case GeometryType.MultiPoint:
+                    return ReadMultiPoint(reader);
+                case GeometryType.MultiPolygon:
+                    return ReadMultiPolygon(reader);
+                case GeometryType.GeometryCollection:
+                case GeometryType.Geometry:
+                case GeometryType.MultiLineString:
+                default:
+                    throw new NotSupportedException($"Not supported geometry type: {geomType}");
+            }
+        }
+
         private static Point ReadPoint(EndianBinaryReader reader)
         {
             return new Point(reader.ReadDouble(), reader.ReadDouble());
+        }
+
+        private static MultiPoint ReadMultiPoint(EndianBinaryReader reader)
+        {
+            var pointCount = reader.ReadUInt32();
+            var points = new List<Point>();
+            for (var i = 0; i < pointCount; i++)
+            {
+                var pt = Parse(reader) as Point;
+                if (pt == null)
+                    throw new ArgumentException($"Expect point but empty for index {i}");
+                points.Add(pt);
+            }
+
+            return new MultiPoint(points);
         }
 
         private static LineString ReadLineString(EndianBinaryReader reader)
@@ -97,6 +119,22 @@ namespace GeoLibrary.IO.Wkb
             }
 
             return new Polygon(rings);
+        }
+
+        private static MultiPolygon ReadMultiPolygon(EndianBinaryReader reader)
+        {
+            var polygonCount = reader.ReadUInt32();
+            var polys = new List<Polygon>();
+            for (int i = 0; i < polygonCount; i++)
+            {
+                var poly = Parse(reader) as Polygon;
+                if (poly == null)
+                    throw new ArgumentException($"Expect polygon but empty for index {i}");
+
+                polys.Add(poly);
+            }
+
+            return new MultiPolygon(polys);
         }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace GeoLibrary.Extension
 {
-    internal static class TextReaderExtension
+    internal static class ReaderExtension
     {
         /// <summary>
         /// Is the end of the text reader
@@ -12,6 +12,11 @@ namespace GeoLibrary.Extension
         public static bool IsEOT(this TextReader reader)
         {
             return reader.Peek() == -1;
+        }
+
+        public static bool IsEOT(this BinaryReader reader)
+        {
+            return reader.PeekChar() == -1;
         }
     }
 }

@@ -38,6 +38,22 @@ namespace GeoLibrary.Unit.IO.Facts.Wkb
         }
 
         [Fact]
+        public void If_input_valid_multipoint_with_lower_endian_then_should_return_correct_multipoint()
+        {
+            const string hex = "010400000004000000010100000000000000000024400000000000004440010100000000000000000044400000000000003e4001010000000000000000003440000000000000344001010000000000000000003e400000000000002440";
+            var expectGeo = new MultiPoint(new List<Point>
+            {
+                new Point(10, 40),
+                new Point(40, 30),
+                new Point(20, 20),
+                new Point(30, 10)
+            });
+
+            var geoResult = WkbReader.Read(hex);
+            geoResult.Equals(expectGeo).Should().BeTrue();
+        }
+
+        [Fact]
         public void If_input_valid_linestring_with_lower_endian_then_should_return_correct_linestring()
         {
             const string hex = "0102000020E61000000400000095D74AE82EED28408A271653442E49402E7F74A03DED284001A02F62442E49409F6BA9CD49ED28403657CD73442E49407D1A417452ED2840A2F9522E432E4940";
@@ -64,6 +80,33 @@ namespace GeoLibrary.Unit.IO.Facts.Wkb
                 new Point(20, 40),
                 new Point(10, 20),
                 new Point(30, 10)
+            });
+
+            var geoResult = WkbReader.Read(hex);
+            geoResult.Equals(expectGeo).Should().BeTrue();
+        }
+
+        [Fact]
+        public void If_input_valid_multipolygon_with_lower_endian_then_should_return_correct_multipolygon()
+        {
+            const string hex = "010600000002000000010300000001000000040000000000000000003e40000000000000344000000000008046400000000000004440000000000000244000000000000044400000000000003e400000000000003440010300000001000000050000000000000000002e4000000000000014400000000000004440000000000000244000000000000024400000000000003440000000000000144000000000000024400000000000002e400000000000001440";
+            var expectGeo = new MultiPolygon(new List<Polygon>
+            {
+                new Polygon(new List<Point>
+                {
+                    new Point(30, 20),
+                    new Point(45, 40),
+                    new Point(10, 40),
+                    new Point(30, 20)
+                }),
+                new Polygon(new List<Point>
+                {
+                    new Point(15, 5),
+                    new Point(40, 10),
+                    new Point(10, 20),
+                    new Point(5, 10),
+                    new Point(15, 5)
+                })
             });
 
             var geoResult = WkbReader.Read(hex);
