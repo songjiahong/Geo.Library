@@ -7,8 +7,6 @@ namespace GeoLibrary.IO.Wkb
 {
     public class WkbReader
     {
-        const UInt32 SridFlag = 0x20000000;
-
         public static Geometry Read(string wkbHex)
         {
             if (string.IsNullOrEmpty(wkbHex) || wkbHex.Length % 2 != 0)
@@ -44,7 +42,7 @@ namespace GeoLibrary.IO.Wkb
         {
             reader.IsBigEndian = !reader.ReadBoolean();
             uint type = reader.ReadUInt32();
-            var hasSrid = (type & SridFlag) == SridFlag;
+            var hasSrid = (type & Constants.SridFlag) == Constants.SridFlag;
             type &= 0xFF;
             var geomType = (GeometryType)(type % 1000);
             var dimension = (Dimension)(type - type % 1000);

@@ -1,4 +1,6 @@
-﻿namespace GeoLibrary
+﻿using System;
+
+namespace GeoLibrary
 {
     internal static class Constants
     {
@@ -8,5 +10,6 @@
         public const double MinLatitude = -90;
         public const double MaxLatitude = 90;
         public const double EarthMeanRadius = 6371000;  // in meters
+        public const UInt32 SridFlag = 0x20000000;
     }
 }
