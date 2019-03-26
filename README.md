@@ -2,11 +2,11 @@
 
 [![Build Status](https://revitapp.visualstudio.com/GeoLibrary/_apis/build/status/GeoLibrary-ASP.NET%20Core-CI?branchName=master)](https://revitapp.visualstudio.com/GeoLibrary/_build/latest?definitionId=1)
 
-Geo 2D library to read/write to wkt/geojson and do intersection, union, difference etc calculation. Support point, mulitpoint, polygon, multipolygon.
+Geo 2D library to read/write to wkt/wkb/geojson and do intersection, union, difference etc calculation. Support point, mulitpoint, polygon, multipolygon.
 
 ## Nuget
 ```
-Install-Package GeoLibrary -Version 0.3.0
+Install-Package GeoLibrary -Version 0.4.0
 ```
 
 ## Support Geometry Types
@@ -23,6 +23,9 @@ Install-Package GeoLibrary -Version 0.3.0
 * GeoJson Support
   * Read from GeoJson string
   * Write to GeoJson string
+* WKB Support
+  * Read from WKB hex string
+  * Write to WKB hex string
 * Geometry Operations
   * Intersection Check
     * Point & Point
