@@ -192,6 +192,8 @@ namespace GeoLibrary.Unit.Operation.Facts
             });
 
             point.IsIntersects(polygon).Should().Equals(inside);
+            polygon.IsIntersects(point).Should().Equals(inside);
+            polygon.IsPointInside(point).Should().Equals(inside);
         }
 
         [Theory]
@@ -207,6 +209,8 @@ namespace GeoLibrary.Unit.Operation.Facts
             });
 
             point.IsIntersects(polygon).Should().Equals(inside);
+            polygon.IsIntersects(point).Should().Equals(inside);
+            polygon.IsPointInside(point).Should().Equals(inside);
         }
     }
 }

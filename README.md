@@ -31,6 +31,7 @@ Install-Package GeoLibrary -Version 0.4.0
     * Point & Point
     * Point & MultiPoint
     * MultiPoint & MultiPoint
+    * Point & Polygon (Whether a point is inside a polygon)
   * Intersects
     * Point & Point
     * Point & MultiPoint
