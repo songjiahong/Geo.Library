@@ -93,6 +93,8 @@ namespace GeoLibrary.Model
                     return IntersectCheckOperator.IsIntersects(this, point);
                 case MultiPoint multiPoint:
                     return IntersectCheckOperator.IsIntersects(this, multiPoint);
+                case Polygon polygon:
+                    return IntersectCheckOperator.IsIntersects(this, polygon);
                 default:
                     throw new Exception("Not supported type!");
             }

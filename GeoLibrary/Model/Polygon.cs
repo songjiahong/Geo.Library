@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using GeoLibrary.Operation;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace GeoLibrary.Model
@@ -91,6 +93,24 @@ namespace GeoLibrary.Model
         public override Geometry Clone()
         {
             return new Polygon(LineStrings.Select(x => x.Clone() as LineString));
+        }
+
+        public bool IsPointInside(Point point)
+        {
+            return IsIntersects(point);
+        }
+
+        public override bool IsIntersects(Geometry other)
+        {
+            switch (other)
+            {
+                case Point point:
+                    return IntersectCheckOperator.IsIntersects(point, this);
+                case MultiPoint multiPoint:
+                case Polygon polygon:
+                default:
+                    throw new Exception("Not supported type!");
+            }
         }
     }
 }

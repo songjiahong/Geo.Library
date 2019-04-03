@@ -1,6 +1,7 @@
 using FluentAssertions;
 using GeoLibrary.Model;
 using System;
+using System.Collections.Generic;
 using Xunit;
 
 namespace GeoLibrary.Unit.Operation.Facts
@@ -155,6 +156,57 @@ namespace GeoLibrary.Unit.Operation.Facts
 
             var result = point1.Intersection(multiPoint);
             result.Should().Be(null);
+        }
+
+        [Theory]
+        [InlineData(1, 1, true)]
+        [InlineData(0, 0, true)]
+        [InlineData(0, 3, true)]
+        [InlineData(0, 5, true)]
+        [InlineData(5, 5, true)]
+        [InlineData(5, 0, true)]
+        [InlineData(.5, 4.5, true)]
+        [InlineData(4.5, 4.5, true)]
+        [InlineData(-1, 0, false)]
+        [InlineData(-1, -1, false)]
+        [InlineData(-1, 4, false)]
+        [InlineData(-1, 5, false)]
+        [InlineData(2, 5, false)]
+        [InlineData(2, 4.5, false)]
+        [InlineData(2, 6, false)]
+        [InlineData(6, 6, false)]
+        public void If_point_with_a_simple_polygon_then_should_return_intersect_check_correctly(double longitude, double latitude, bool inside)
+        {
+            var point = new Point(longitude, latitude);
+            var polygon = new Polygon(new List<Point>
+            {
+                new Point(0, 0),
+                new Point(5, 0),
+                new Point(5, 5),
+                new Point(3, 5),
+                new Point(3, 3),
+                new Point(1, 3),
+                new Point(1, 5),
+                new Point(0, 5),
+                new Point(0, 0),
+            });
+
+            point.IsIntersects(polygon).Should().Equals(inside);
+        }
+
+        [Theory]
+        [InlineData(30, 17, true)]
+        [InlineData(20, 23.9, false)]
+        public void If_point_with_a_polygon_with_whole_then_should_return_intersect_check_correctly(double longitude, double latitude, bool inside)
+        {
+            var point = new Point(longitude, latitude);
+            var polygon = new Polygon(new[]
+            {
+                new LineString(new[] { new Point(20, 35), new Point(10, 30), new Point(10, 10), new Point(30, 5), new Point(45, 20), new Point(20, 35) }),
+                new LineString(new[] { new Point(30, 20), new Point(20, 15), new Point(20, 25), new Point(30, 20) })
+            });
+
+            point.IsIntersects(polygon).Should().Equals(inside);
         }
     }
 }
