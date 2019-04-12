@@ -90,5 +90,46 @@ namespace GeoLibrary.Unit.Model.Facts
             copied.IsValid.Should().BeTrue();
             copied.Equals(polygon).Should().BeTrue();
         }
+
+        [Fact]
+        public void Rectangle_polygon_should_have_centroid_on_center()
+        {
+            var polygon = new Polygon(new[] { new Point(-10, -10), new Point(10, -10), new Point(10, 10), new Point(-10, 10), new Point(-10, -10) });
+            var expectedCentroid = new Point(0, 0);
+
+            var centroid = polygon.CalculateCentroid();
+            centroid.Equals(expectedCentroid).Should().BeTrue();
+        }
+
+        [Fact]
+        public void Triangle_polygon_should_have_centroid_on_center()
+        {
+            var polygon = new Polygon(new[] { new Point(-9, -9), new Point(9, -9), new Point(9, 9), new Point(-9, -9) });
+            var expectedCentroid = new Point(3, -3);
+
+            var centroid = polygon.CalculateCentroid();
+            centroid.Equals(expectedCentroid).Should().BeTrue();
+        }
+
+        [Fact]
+        public void Simple_polygon_should_have_centroid_on_center()
+        {
+            var polygon = new Polygon(new []
+            {
+                new Point(0, 0),
+                new Point(5, 0),
+                new Point(5, 5),
+                new Point(3, 5),
+                new Point(3, 3),
+                new Point(1, 3),
+                new Point(1, 5),
+                new Point(0, 5),
+                new Point(0, 0),
+            });
+            var expectedCentroid = new Point(2.595238095238095, 2.214285714285714);
+
+            var centroid = polygon.CalculateCentroid();
+            centroid.Equals(expectedCentroid).Should().BeTrue();
+        }
     }
 }

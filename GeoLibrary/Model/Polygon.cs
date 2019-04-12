@@ -112,5 +112,36 @@ namespace GeoLibrary.Model
                     throw new Exception("Not supported type!");
             }
         }
+
+        /// <summary>
+        /// Calculate centroid of polygon.
+        /// Algorithm comes from https://en.wikipedia.org/wiki/Centroid
+        /// </summary>
+        /// <returns></returns>
+        public Point CalculateCentroid()
+        {
+            if (IsValid == false)
+                return null;
+
+            var ring = LineStrings[0];
+            var n = ring.Count - 1;
+            var area = 0d;
+            var lng = 0d;
+            var lat = 0d;
+            for (int i = 0; i < n; i++)
+            {
+                var p1 = ring[i];
+                var p2 = ring[(i + 1) % n];
+                area += p1.Longitude * p2.Latitude - p2.Longitude * p1.Latitude;
+                lng += (p1.Longitude + p2.Longitude) * (p1.Longitude * p2.Latitude - p2.Longitude * p1.Latitude);
+                lat += (p1.Latitude + p2.Latitude) * (p1.Longitude * p2.Latitude - p2.Longitude * p1.Latitude);
+            }
+            area /= 2;
+            lng /= 6 * area;
+            lat /= 6 * area;
+
+            return new Point(lng, lat);
+
+        }
     }
 }
