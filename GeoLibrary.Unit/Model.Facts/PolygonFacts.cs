@@ -131,5 +131,24 @@ namespace GeoLibrary.Unit.Model.Facts
             var centroid = polygon.CalculateCentroid();
             centroid.Equals(expectedCentroid).Should().BeTrue();
         }
+
+        [Fact]
+        public void Polygon_with_one_hole_should_have_centroid_on_center()
+        {
+            var polygon = new Polygon(new []
+                {
+                    new LineString(new [] {
+                        new Point(-1, -1), new Point(3, -1), new Point(3, 3), new Point(-1, 3), new Point(-1, -1)
+                    }),
+                    new LineString(new [] {
+                        new Point(0, 0), new Point(0, 2), new Point(2, 2), new Point(2, 0), new Point(0, 0)
+                    })
+                });
+
+            var expectedCentroid = new Point(1, 1);
+
+            var centroid = polygon.CalculateCentroid();
+            centroid.Equals(expectedCentroid).Should().BeTrue();
+        }
     }
 }

@@ -123,25 +123,34 @@ namespace GeoLibrary.Model
             if (IsValid == false)
                 return null;
 
-            var ring = LineStrings[0];
-            var n = ring.Count - 1;
-            var area = 0d;
-            var lng = 0d;
-            var lat = 0d;
-            for (int i = 0; i < n; i++)
+            var areaTotal = 0d;
+            var latCalc = 0d;
+            var lngCalc = 0d;
+
+            foreach (var ring in LineStrings)
             {
-                var p1 = ring[i];
-                var p2 = ring[(i + 1) % n];
-                area += p1.Longitude * p2.Latitude - p2.Longitude * p1.Latitude;
-                lng += (p1.Longitude + p2.Longitude) * (p1.Longitude * p2.Latitude - p2.Longitude * p1.Latitude);
-                lat += (p1.Latitude + p2.Latitude) * (p1.Longitude * p2.Latitude - p2.Longitude * p1.Latitude);
+                var n = ring.Count - 1;
+                var area = 0d;
+                var lng = 0d;
+                var lat = 0d;
+                for (int i = 0; i < n; i++)
+                {
+                    var p1 = ring[i];
+                    var p2 = ring[(i + 1) % n];
+                    area += p1.Longitude * p2.Latitude - p2.Longitude * p1.Latitude;
+                    lng += (p1.Longitude + p2.Longitude) * (p1.Longitude * p2.Latitude - p2.Longitude * p1.Latitude);
+                    lat += (p1.Latitude + p2.Latitude) * (p1.Longitude * p2.Latitude - p2.Longitude * p1.Latitude);
+                }
+                area /= 2;
+                lng /= 6 * area;
+                lat /= 6 * area;
+
+                areaTotal += area;
+                latCalc += lat * area;
+                lngCalc += lng * area;
             }
-            area /= 2;
-            lng /= 6 * area;
-            lat /= 6 * area;
 
-            return new Point(lng, lat);
-
+            return new Point(lngCalc / areaTotal, latCalc / areaTotal);
         }
     }
 }
