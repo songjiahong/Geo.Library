@@ -152,5 +152,32 @@ namespace GeoLibrary.Model
 
             return new Point(lngCalc / areaTotal, latCalc / areaTotal);
         }
+
+        public double Area
+        {
+            get
+            {
+                if (IsValid == false)
+                    return 0;
+
+                var areaTotal = 0d;
+                foreach (var ring in LineStrings)
+                {
+                    var n = ring.Count - 1;
+                    var area = 0d;
+                    for (int i = 0; i < n; i++)
+                    {
+                        var p1 = ring[i];
+                        var p2 = ring[(i + 1) % n];
+                        area += p1.Longitude * p2.Latitude - p2.Longitude * p1.Latitude;
+                    }
+                    area /= 2;
+
+                    areaTotal += area;
+                }
+
+                return areaTotal;
+            }
+        }
     }
 }

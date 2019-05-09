@@ -150,5 +150,45 @@ namespace GeoLibrary.Unit.Model.Facts
             var centroid = polygon.CalculateCentroid();
             centroid.Equals(expectedCentroid).Should().BeTrue();
         }
+
+        [Fact]
+        public void Simple_polygon_should_have_correct_area()
+        {
+            var polygon = new Polygon(new[]
+            {
+                new Point(0, 0),
+                new Point(5, 0),
+                new Point(5, 5),
+                new Point(3, 5),
+                new Point(3, 3),
+                new Point(1, 3),
+                new Point(1, 5),
+                new Point(0, 5),
+                new Point(0, 0),
+            });
+            var expectedArea = 21d;
+
+            var area = polygon.Area;
+            area.Equals(expectedArea).Should().BeTrue();
+        }
+
+        [Fact]
+        public void Polygon_with_one_hole_should_have_correct_area()
+        {
+            var polygon = new Polygon(new[]
+                {
+                    new LineString(new [] {
+                        new Point(-1, -1), new Point(3, -1), new Point(3, 3), new Point(-1, 3), new Point(-1, -1)
+                    }),
+                    new LineString(new [] {
+                        new Point(0, 0), new Point(0, 2), new Point(2, 2), new Point(2, 0), new Point(0, 0)
+                    })
+                });
+
+            var expectedArea = 12d;
+
+            var area = polygon.Area;
+            area.Equals(expectedArea).Should().BeTrue();
+        }
     }
 }
