@@ -67,6 +67,16 @@ namespace GeoLibrary.Unit.Model.Facts
         }
 
         [Fact]
+        public void If_linestring_with_some_overlap_point_and_collinear_edges_then_simplify_should_remove_some_point()
+        {
+            var lineString = new LineString(new[] { new Point(-120, 30), new Point(20, 70), new Point(20, 70), new Point(20, 30), new Point(20, 0), new Point(0, 0), new Point(-120, 30), new Point(-120, 30) });
+            var expectedLineString = new LineString(new[] { new Point(-120, 30), new Point(20, 70), new Point(20, 0), new Point(0, 0), new Point(-120, 30) });
+
+            lineString.Simplify(true);
+            (lineString == expectedLineString).Should().BeTrue();
+        }
+
+        [Fact]
         public void A_linestring_should_not_equal_to_a_none_linestring()
         {
             var lineString = new LineString();

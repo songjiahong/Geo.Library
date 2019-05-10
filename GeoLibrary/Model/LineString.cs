@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using GeoLibrary.Extension;
 using GeoLibrary.Interface;
 
 namespace GeoLibrary.Model
@@ -28,9 +29,10 @@ namespace GeoLibrary.Model
         }
 
         /// <summary>
-        /// Remove duplicate points unless the first and the last one
+        /// Simplify the polygon by removing duplicate points or collinear edges for all LineStrings unless the first and the last one
         /// </summary>
-        public void Simplify()
+        /// <param name="removeCollinearEdges">Merge collinear edges if true, otherwise not</param>
+        public void Simplify(bool removeCollinearEdges = false)
         {
             if (Count < 2)
                 return;
@@ -45,6 +47,14 @@ namespace GeoLibrary.Model
                 else
                 {
                     lastPoint = Coordinates[index];
+                }
+            }
+
+            for (int index = Count - 2; index > 0; index--)
+            {
+                if (this[index].IsBetweenLinear(this[index - 1], this[index + 1]))
+                {
+                    Coordinates.RemoveAt(index);
                 }
             }
         }

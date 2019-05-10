@@ -38,15 +38,16 @@ namespace GeoLibrary.Model
         }
 
         /// <summary>
-        /// Remove duplicate points for all LineStrings unless the first and the last one
+        /// Simplify the polygon by removing duplicate points or collinear edges for all LineStrings unless the first and the last one
         /// </summary>
-        public void Simplify()
+        /// <param name="removeCollinearEdges">Merge collinear edges if true, otherwise not</param>
+        public void Simplify(bool removeCollinearEdges = false)
         {
             if (IsEmpty) return;
 
             foreach (var lineString in LineStrings)
             {
-                lineString.Simplify();
+                lineString.Simplify(removeCollinearEdges);
             }
         }
 

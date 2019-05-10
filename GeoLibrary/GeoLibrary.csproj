@@ -15,8 +15,4 @@
     <FileVersion>0.4.1.0</FileVersion>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="Enum\" />
-  </ItemGroup>
-
 </Project>
