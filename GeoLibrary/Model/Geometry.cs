@@ -1,5 +1,6 @@
 ﻿using System;
 using GeoLibrary.IO.GeoJson;
+using GeoLibrary.IO.Wkb;
 using GeoLibrary.IO.Wkt;
 
 namespace GeoLibrary.Model
@@ -12,6 +13,11 @@ namespace GeoLibrary.Model
         public static Geometry FromWkt(string wkt)
         {
             return WktReader.Read(wkt);
+        }
+
+        public static Geometry FromWkbHex(string wkbHex)
+        {
+            return WkbReader.Read(wkbHex);
         }
 
         public static Geometry FromGeoJson(string json)
