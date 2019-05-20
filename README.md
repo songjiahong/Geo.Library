@@ -6,7 +6,7 @@ Geo 2D library to read/write to wkt/wkb/geojson and do intersection, union, diff
 
 ## Nuget
 ```
-Install-Package GeoLibrary -Version 0.5.0
+Install-Package GeoLibrary -Version 0.5.1
 ```
 
 ## Support Geometry Types
@@ -40,6 +40,10 @@ Install-Package GeoLibrary -Version 0.5.0
     * Point & Point
     * Point & MultiPoint
     * MultiPoint & MultiPoint
+* Point Special Functions
+  * IsBetweenLinear: check whether point lies between two points
+  * DistanceTo: calculate Euclidean distance to another point
+  * HaversineDistanceTo: calculate Haversine distance to another point
 * Polygon Special Functions
   * IsPointInside: check whether a point is inside a polygon
   * CalculateCentroid: calculate centroid of the polygon
