@@ -1,8 +1,8 @@
-﻿using System;
+﻿using GeoLibrary;
 
-namespace GeoLibrary.Extension
+namespace System
 {
-    internal static class DoubleExtension
+    public static class DoubleExtension
     {
         public static bool AlmostEqual(this double val, double valOther, double eps = Constants.Eps)
         {
@@ -27,6 +27,16 @@ namespace GeoLibrary.Extension
         public static bool LessOrEqual(this double val, double valOther, double eps = Constants.Eps)
         {
             return val < valOther + eps;
+        }
+
+        public static double ToRadian(this double val)
+        {
+            return val * (Math.PI / 180);
+        }
+
+        public static double ToDegree(this double val)
+        {
+            return val * 180 / Math.PI;
         }
     }
 }

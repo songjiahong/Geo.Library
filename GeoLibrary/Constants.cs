@@ -9,7 +9,7 @@ namespace GeoLibrary
         public const double MaxLongitude = 180;
         public const double MinLatitude = -90;
         public const double MaxLatitude = 90;
-        public const double EarthMeanRadius = 6371000;  // in meters
+        public const double EarthMeanRadius = 6371;  // in Kilometers
         public const UInt32 SridFlag = 0x20000000;
     }
 }

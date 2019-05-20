@@ -1,5 +1,5 @@
-﻿using System.Linq;
-using GeoLibrary.Extension;
+﻿using System;
+using System.Linq;
 using GeoLibrary.Model;
 
 namespace GeoLibrary.Operation
