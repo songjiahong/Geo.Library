@@ -6,7 +6,7 @@ Geo 2D library to read/write to wkt/wkb/geojson and do intersection, union, diff
 
 ## Nuget
 ```
-Install-Package GeoLibrary -Version 0.5.1
+Install-Package GeoLibrary -Version 1.0.0
 ```
 
 ## Support Geometry Types
