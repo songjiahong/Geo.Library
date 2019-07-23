@@ -49,6 +49,11 @@ namespace GeoLibrary.Model
                 }
             }
 
+            if (removeCollinearEdges == false)
+            {
+                return;
+            }
+
             for (int index = Count - 2; index > 0; index--)
             {
                 if (this[index].IsBetweenLinear(this[index - 1], this[index + 1]))
