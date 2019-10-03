@@ -63,6 +63,27 @@ namespace GeoLibrary.Model
             }
         }
 
+        /// <summary>
+        /// Check whether the line string is self intersection
+        /// </summary>
+        /// <returns>true is self intersection, false otherwise</returns>
+        public bool IsSelfIntersection()
+        {
+            var count = Count - 1;
+            for (var i = 0; i < count; i++)
+            {
+                for (var j = i + 1; j < count; j++)
+                {
+                    if (Coordinates[i].Equals(Coordinates[j]))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
         public override bool Equals(object obj)
         {
             if (!(obj is LineString other)) return false;

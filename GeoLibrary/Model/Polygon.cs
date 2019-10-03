@@ -51,6 +51,23 @@ namespace GeoLibrary.Model
             }
         }
 
+        /// <summary>
+        /// Check whether the polygon is self intersection
+        /// </summary>
+        /// <returns>true is self intersection, false otherwise</returns>
+        public bool IsSelfIntersection()
+        {
+            foreach (var ring in LineStrings)
+            {
+                if (ring.IsSelfIntersection())
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         public override bool Equals(object obj)
         {
             if (!(obj is Polygon other)) return false;
@@ -108,6 +125,14 @@ namespace GeoLibrary.Model
                 case Point point:
                     return IntersectCheckOperator.IsIntersects(point, this);
                 case MultiPoint multiPoint:
+                    foreach (Point pt in multiPoint.Geometries)
+                    {
+                        if (IntersectCheckOperator.IsIntersects(pt, this))
+                        {
+                            return true;
+                        }
+                    }
+                    return false;
                 case Polygon polygon:
                 default:
                     throw new Exception("Not supported type!");
