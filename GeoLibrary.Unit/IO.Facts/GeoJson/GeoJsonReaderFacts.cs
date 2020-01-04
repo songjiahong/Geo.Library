@@ -3,6 +3,8 @@ using GeoLibrary.IO.GeoJson;
 using GeoLibrary.Model;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Threading;
 using Xunit;
 
 namespace GeoLibrary.Unit.IO.Facts.GeoJson
@@ -34,6 +36,31 @@ namespace GeoLibrary.Unit.IO.Facts.GeoJson
 
             var resultGeo = GeoJsonReader.Read(geojson);
             resultGeo.Equals(expectGeo).Should().BeTrue();
+        }
+
+        [Fact]
+        public void If_json_is_valid_point_then_should_return_correct_point_in_different_cultures()
+        {
+            var cultures = new string[] { "en-US", "sv-SE" };
+            var originalCulture = Thread.CurrentThread.CurrentCulture;
+
+            try
+            {
+                foreach (var culture in cultures)
+                {
+                    Thread.CurrentThread.CurrentCulture = new CultureInfo(culture);
+
+                    const string geojson = "{\"type\": \"Point\",\"coordinates\": [10.1, 20.2]}";
+                    var expectGeo = new Point(10.1, 20.2);
+
+                    var resultGeo = GeoJsonReader.Read(geojson);
+                    resultGeo.Equals(expectGeo).Should().BeTrue();
+                }
+            }
+            finally
+            {
+                Thread.CurrentThread.CurrentCulture = originalCulture;
+            }
         }
 
         [Fact]

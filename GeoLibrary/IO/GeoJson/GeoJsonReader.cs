@@ -2,6 +2,7 @@
 using GeoLibrary.Model;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -242,7 +243,7 @@ namespace GeoLibrary.IO.GeoJson
             while (IsDigit((char)reader.Peek()))
                 builder.Append((char)reader.Read());
 
-            return builder.Length == 0 ? throw new ArgumentException("Invalid number") : double.Parse(builder.ToString());
+            return builder.Length == 0 ? throw new ArgumentException("Invalid number") : double.Parse(builder.ToString(), CultureInfo.InvariantCulture);
         }
 
         private static Point ReadPoint(TextReader reader, StringBuilder builder, bool verifyBeginning = false)

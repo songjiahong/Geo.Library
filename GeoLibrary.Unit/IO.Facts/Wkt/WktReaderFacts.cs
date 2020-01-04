@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Globalization;
+using System.Threading;
 using FluentAssertions;
 using GeoLibrary.IO.Wkt;
 using GeoLibrary.Model;
@@ -27,6 +29,33 @@ namespace GeoLibrary.Unit.IO.Wkt.Facts
             var resultPoint = WktReader.Read(wkt);
 
             resultPoint.Should().BeEquivalentTo(expectedPoint);
+        }
+
+
+        [Fact]
+        public void If_wkt_is_valid_point_then_should_return_correct_point_in_different_cultures()
+        {
+            var cultures = new string[] { "en-US", "sv-SE" };
+            var originalCulture = Thread.CurrentThread.CurrentCulture;
+
+            try
+            {
+                foreach (var culture in cultures)
+                {
+                    Thread.CurrentThread.CurrentCulture = new CultureInfo(culture);
+
+                    const string wkt = "POINT (10.1 20.2)";
+                    var expectedPoint = new Point(10.1, 20.2);
+
+                    var resultPoint = WktReader.Read(wkt);
+
+                    resultPoint.Should().BeEquivalentTo(expectedPoint);
+                }
+            }
+            finally
+            {
+                Thread.CurrentThread.CurrentCulture = originalCulture;
+            }
         }
 
         [Theory]
