@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Text;
 using GeoLibrary.Extension;
@@ -164,7 +165,7 @@ namespace GeoLibrary.IO.Wkt
             while (IsDigit((char)reader.Peek()))
                 builder.Append((char)reader.Read());
 
-            return builder.Length == 0 ? throw new ArgumentException("Invalid number") : double.Parse(builder.ToString());
+            return builder.Length == 0 ? throw new ArgumentException("Invalid number") : double.Parse(builder.ToString(), CultureInfo.InvariantCulture);
         }
 
         private static void SkipWhiteSpaces(TextReader reader)
