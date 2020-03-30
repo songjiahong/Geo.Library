@@ -191,9 +191,9 @@ namespace GeoLibrary.Unit.Operation.Facts
                 new Point(0, 0),
             });
 
-            point.IsIntersects(polygon).Should().Equals(inside);
-            polygon.IsIntersects(point).Should().Equals(inside);
-            polygon.IsPointInside(point).Should().Equals(inside);
+            point.IsIntersects(polygon).Should().Be(inside);
+            polygon.IsIntersects(point).Should().Be(inside);
+            polygon.IsPointInside(point).Should().Be(inside);
         }
 
         [Theory]
@@ -208,9 +208,9 @@ namespace GeoLibrary.Unit.Operation.Facts
                 new LineString(new[] { new Point(30, 20), new Point(20, 15), new Point(20, 25), new Point(30, 20) })
             });
 
-            point.IsIntersects(polygon).Should().Equals(inside);
-            polygon.IsIntersects(point).Should().Equals(inside);
-            polygon.IsPointInside(point).Should().Equals(inside);
+            point.IsIntersects(polygon).Should().Be(inside);
+            polygon.IsIntersects(point).Should().Be(inside);
+            polygon.IsPointInside(point).Should().Be(inside);
         }
 
         [Theory]
