@@ -212,5 +212,39 @@ namespace GeoLibrary.Unit.Operation.Facts
             polygon.IsIntersects(point).Should().Equals(inside);
             polygon.IsPointInside(point).Should().Equals(inside);
         }
+
+        [Theory]
+        [InlineData(17.0274, 58.7479, false)]
+        [InlineData(17.0264, 58.7479, true)]
+        [InlineData(17.0249, 58.7479, true)]
+        [InlineData(17.0237, 58.7479, false)]
+        public void If_point_is_in_within_polygon_return_true_else_return_false(double longitude, double latitude, bool inside)
+        {
+            var point = new Point(longitude, latitude);
+            var polygon = new Polygon(new[]
+            {
+                new LineString(new[]
+                { new Point(17.02721, 58.747865),
+                    new Point(17.0272217, 58.7477883),
+                    new Point(17.0272233, 58.7477767),
+                    new Point(17.027224, 58.747765),
+                    new Point(17.02717, 58.7476967),
+                    new Point(17.027155, 58.7476867),
+                    new Point(17.0243233, 58.74786),
+                    new Point(17.0242817, 58.74787),
+                    new Point(17.0242533, 58.7478783),
+                    new Point(17.0242083, 58.7478967),
+                    new Point(17.024185, 58.7479067),
+                    new Point(17.024181, 58.74791),
+                    new Point(17.024147, 58.74794),
+                    new Point(17.024342, 58.748081),
+                    new Point(17.0271167, 58.7478783),
+                    new Point(17.02721, 58.747865) })
+            });
+
+            point.IsIntersects(polygon).Should().Be(inside);
+            polygon.IsIntersects(point).Should().Be(inside);
+            polygon.IsPointInside(point).Should().Be(inside);
+        }
     }
 }
