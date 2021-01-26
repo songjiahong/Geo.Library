@@ -21,7 +21,7 @@ namespace GeoLibrary.Unit.IO.Facts.Wkb
         public void If_input_a_valid_point_then_should_get_correct_wkb()
         {
             var point = new Point(30, 10);
-            var expectWkbHex = "01010000000000000000003e400000000000002440";
+            var expectWkbHex = "01010000000000000000003E400000000000002440";
 
             var hex = point.ToWkbHex();
             hex.Should().BeEquivalentTo(expectWkbHex);
@@ -38,7 +38,7 @@ namespace GeoLibrary.Unit.IO.Facts.Wkb
                 new Point(30, 10)
             });
 
-            var expectWkbHex = "010400000004000000010100000000000000000024400000000000004440010100000000000000000044400000000000003e4001010000000000000000003440000000000000344001010000000000000000003e400000000000002440";
+            var expectWkbHex = "010400000004000000010100000000000000000024400000000000004440010100000000000000000044400000000000003E4001010000000000000000003440000000000000344001010000000000000000003E400000000000002440";
 
             var hex = multiPoint.ToWkbHex();
             hex.Should().BeEquivalentTo(expectWkbHex);
