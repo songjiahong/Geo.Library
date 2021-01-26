@@ -1,4 +1,4 @@
-name: .NET
+name: DOTNET
 
 on:
   push:
@@ -10,6 +10,9 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    # use release mode for all steps
+    env:
+      config: 'Release'
 
     steps:
     - uses: actions/checkout@v2
@@ -20,6 +23,6 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
-      run: dotnet build GeoLibrary/GeoLibrary.csproj --no-restore
+      run: dotnet build --configuration $config --no-restore
     - name: Test
-      run: dotnet test GeoLibrary.Unit/GeoLibrary.Unit.csproj --no-build --verbosity normal
+      run: dotnet test GeoLibrary.Unit/GeoLibrary.Unit.csproj --configuration $config --no-restore --no-build --verbosity normal
